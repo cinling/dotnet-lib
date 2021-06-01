@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <PackageId>Cinling.Lib</PackageId>
+    <PackageVersion>0.0.0-alpha</PackageVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Title>Lib</Title>
+    <Authors>Cinling</Authors>
+    <RootNamespace>Lib</RootNamespace>
+  </PropertyGroup>
+  
+</Project>
