@@ -9,5 +9,10 @@
     <Authors>Cinling</Authors>
     <RootNamespace>Cinling.Lib</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="src" />
+    <Folder Include="test" />
+  </ItemGroup>
   
 </Project>
