@@ -1,8 +1,7 @@
-﻿using Cinling.Lib.Exceptions;
-using Cinling.Lib.Utils;
+﻿using Cinling.Lib.Utils;
 using NUnit.Framework;
 
-namespace Test.Lib.Utils {
+namespace LibTest.Utils {
     
     public class JsonUtilTest {
 

@@ -11,8 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="src" />
-    <Folder Include="test" />
+    <Compile Remove="src\**" />
+    <Compile Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="src\**" />
+    <EmbeddedResource Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="src\**" />
+    <None Remove="test\**" />
   </ItemGroup>
   
 </Project>
