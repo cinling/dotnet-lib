@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>Cinling.Lib</PackageId>
-    <PackageVersion>0.0.2</PackageVersion>
+    <PackageVersion>0.0.3-alpha.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Lib</Title>
     <Authors>Cinling</Authors>
