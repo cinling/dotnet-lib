@@ -6,7 +6,7 @@ namespace Cinling.Lib.Utils {
     /// JSON encode and decode tools
     /// JSON 序列化、反序列化工具
     /// </summary>
-    public class JsonUtil {
+    public static class JsonUtil {
         /// <summary>
         /// JSON encode
         /// JSON 序列化
