@@ -10,12 +10,12 @@ namespace Cinling.Lib.Services {
     /// </summary>
     public class LogService : ILogger<LogService> {
         private readonly ILogger<LogService> logger;
-        
+
         /// <summary>
         /// 
         /// </summary>
-        public LogService() {
-            ILoggerFactory loggerFactory = new LoggerFactory();
+        /// <param name="loggerFactory"></param>
+        public LogService(ILoggerFactory loggerFactory) {
             logger = loggerFactory.CreateLogger<LogService>();
         }
 

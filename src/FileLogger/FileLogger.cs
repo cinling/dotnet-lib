@@ -9,12 +9,15 @@ namespace Cinling.Lib.FileLogger {
         /// </summary>
         public string name { get; private set; }
 
-        public LogLevel level;
-        
         /// <summary>
         /// 
         /// </summary>
-        private readonly FileLoggerConfiguration co;
+        public LogLevel level;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly FileLoggerWriter loggerWriter;
 
         /// <summary>
         /// 
@@ -33,10 +36,10 @@ namespace Cinling.Lib.FileLogger {
         /// 
         /// </summary>
         /// <param name="cateName"></param>
-        /// <param name="co"></param>
-        public FileLogger(string cateName, FileLoggerConfiguration co) {
+        /// <param name="loggerWriter"></param>
+        public FileLogger(string cateName, FileLoggerWriter loggerWriter) {
             name = cateName;
-            this.co = co;
+            this.loggerWriter = loggerWriter;
         }
         
         /// <summary>
@@ -50,7 +53,12 @@ namespace Cinling.Lib.FileLogger {
         /// <typeparam name="TState"></typeparam>
         /// <exception cref="NotImplementedException"></exception>
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter) {
-            throw new NotImplementedException();
+            if (!IsEnabled(logLevel)) {
+                return;
+            }
+
+            var content = formatter(state, exception);
+            loggerWriter.write(content);
         }
 
         /// <summary>

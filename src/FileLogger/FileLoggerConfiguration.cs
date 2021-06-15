@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace Cinling.Lib.FileLogger {
     
@@ -11,7 +12,19 @@ namespace Cinling.Lib.FileLogger {
         /// <summary>
         /// 
         /// </summary>
-        public string SavePath => configuration["Logging.File.SavePath"];
+        public string savePath {
+            get {
+                string path = Directory.GetCurrentDirectory() + "/runtime/cin-log";
+                if (configuration.GetSection("Logging:File:SavePath").Exists()) {
+                    path = configuration["Logging.File.SavePath"];
+                    if (path.EndsWith("/")) {
+                        path = path[..^1]; // Delete the ending "/" 
+                    }
+                }
+
+                return path;
+            }
+        }
 
         /// <summary>
         /// 
