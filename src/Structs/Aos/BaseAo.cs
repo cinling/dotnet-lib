@@ -5,7 +5,7 @@ namespace Cinling.Lib.Structs.Aos {
     /// <summary>
     /// 
     /// </summary>
-    public class BaseAo : BaseVo {
+    public abstract class BaseAo : BaseVo {
         
     }
 }

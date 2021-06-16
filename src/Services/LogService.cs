@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using System;
+using Cinling.Lib.Structs.Cos;
 using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.Services {
@@ -13,6 +14,14 @@ namespace Cinling.Lib.Services {
     /// 日志服务
     /// </summary>
     public class LogService : ILogService {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly LogServiceCo co;
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly ILogger<LogService> logger;
 
         /// <summary>

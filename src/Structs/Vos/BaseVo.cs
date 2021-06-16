@@ -5,7 +5,7 @@ namespace Cinling.Lib.Structs.Vos {
     /// <summary>
     /// 
     /// </summary>
-    public class BaseVo : IOnInit {
+    public abstract class BaseVo : IOnInit {
 
         public BaseVo() {
             OnInit();    
