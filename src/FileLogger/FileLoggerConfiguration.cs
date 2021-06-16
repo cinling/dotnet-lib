@@ -12,7 +12,7 @@ namespace Cinling.Lib.FileLogger {
         /// <summary>
         /// 
         /// </summary>
-        public string savePath {
+        public string SavePath {
             get {
                 string path = Directory.GetCurrentDirectory() + "/runtime/cin-log";
                 if (configuration.GetSection("Logging:File:SavePath").Exists()) {

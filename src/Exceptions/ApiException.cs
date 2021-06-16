@@ -4,7 +4,7 @@
     /// 
     /// </summary>
     public class ApiException : BaseLibException {
-        public ApiException() : base() {
+        public ApiException() {
             
         }
 

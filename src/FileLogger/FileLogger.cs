@@ -7,12 +7,12 @@ namespace Cinling.Lib.FileLogger {
         /// <summary>
         /// 
         /// </summary>
-        public string name { get; private set; }
+        private string name;
 
         /// <summary>
         /// 
         /// </summary>
-        public LogLevel level;
+        private LogLevel level = LogLevel.None;
 
         /// <summary>
         /// 
@@ -58,7 +58,7 @@ namespace Cinling.Lib.FileLogger {
             }
 
             var content = formatter(state, exception);
-            loggerWriter.write(content);
+            loggerWriter.Write(content);
         }
 
         /// <summary>

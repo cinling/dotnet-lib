@@ -7,7 +7,7 @@ namespace Cinling.Lib.Exceptions {
     /// </summary>
     public class BaseLibException : Exception {
         
-        public BaseLibException() : base() {
+        public BaseLibException() {
         }
         
         public BaseLibException(string message) : base(message) {

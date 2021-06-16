@@ -2,9 +2,21 @@
 using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.FileLogger {
+    /// <summary>
+    /// 
+    /// </summary>
     public class FileLoggerProvider : ILoggerProvider {
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly ConcurrentDictionary<string, FileLogger> loggerCateDict = new ();
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly FileLoggerConfiguration co;
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly FileLoggerWriter loggerWriter;
 
         /// <summary>
@@ -13,14 +25,14 @@ namespace Cinling.Lib.FileLogger {
         /// <param name="configuration"></param>
         public FileLoggerProvider(FileLoggerConfiguration configuration) {
             co = configuration;
-            loggerWriter = new FileLoggerWriter(co.savePath);
+            loggerWriter = new FileLoggerWriter(co.SavePath);
         }
         
         /// <summary>
         /// 
         /// </summary>
         public void Dispose() {
-            loggerWriter.beginWriteQueue();
+            loggerWriter.BeginWriteQueue();
         }
 
         /// <summary>

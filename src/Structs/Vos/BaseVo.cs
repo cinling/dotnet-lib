@@ -8,10 +8,10 @@ namespace Cinling.Lib.Structs.Vos {
     public class BaseVo : IOnInit {
 
         public BaseVo() {
-            onInit();    
+            OnInit();    
         }
         
-        public void onInit() {
+        public void OnInit() {
             
         }
     }

@@ -4,11 +4,15 @@ using System;
 using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.Services {
+
+    public interface ILogService : ILogger<LogService> {
+        
+    }
     
     /// <summary>
     /// 日志服务
     /// </summary>
-    public class LogService : ILogger<LogService> {
+    public class LogService : ILogService {
         private readonly ILogger<LogService> logger;
 
         /// <summary>

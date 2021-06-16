@@ -1,6 +1,6 @@
 ﻿namespace Cinling.Lib.Interfaces {
     public interface IOnInit {
-        void onInit();
+        void OnInit();
     }
 
     public static class OnInitMethods {

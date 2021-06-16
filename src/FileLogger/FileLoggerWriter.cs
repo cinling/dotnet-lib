@@ -37,12 +37,12 @@ namespace Cinling.Lib.FileLogger {
         /// 写入文本
         /// </summary>
         /// <param name="content"></param>
-        public void write(string content) {
+        public void Write(string content) {
             logQueue.Enqueue(content);
-            beginWriteQueue();
+            BeginWriteQueue();
         }
 
-        public void beginWriteQueue() {
+        public void BeginWriteQueue() {
             writeMutex.WaitOne();
             const int maxWriteNum = 1000;
             var writer = File.AppendText(savePath + "/app.log");
