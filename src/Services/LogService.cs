@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using System;
+using Cinling.Lib.Interfaces;
 using Cinling.Lib.Structs.Cos;
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +19,7 @@ namespace Cinling.Lib.Services {
         /// <summary>
         /// 
         /// </summary>
-        private readonly LogServiceCo co;
+        private readonly ILogServiceCo co;
         /// <summary>
         /// 
         /// </summary>
@@ -27,8 +28,11 @@ namespace Cinling.Lib.Services {
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="co"></param>
         /// <param name="loggerFactory"></param>
-        public LogService(ILoggerFactory loggerFactory) {
+        public LogService(ILogServiceCo co, ILoggerFactory loggerFactory) {
+            this.co = co;
+            this.co.InitLoggerFactoryAction(loggerFactory);
             logger = loggerFactory.CreateLogger<LogService>();
         }
 

@@ -1,19 +1,19 @@
-﻿using System;
+﻿
 using Cinling.Lib.Services;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 
 namespace LibTest.Services {
     public class LogServiceTest {
-        private readonly LogService logSrv;
-
+        private readonly TestServer server;
+        private readonly ILogService logSrv;
+        
         public LogServiceTest() {
-            IConfiguration i = new ConfigurationBuilder().Build();
-            ILoggerFactory f = new LoggerFactory();
-            f.AddFileProvider(i);
-            
-            logSrv = new LogService(f);
+            server = new TestServer(new WebHostBuilder().UseStartup<StartUp>());
+            logSrv = server.Host.Services.GetService<ILogService>();
         }
 
         [Test]
@@ -21,8 +21,6 @@ namespace LibTest.Services {
             logSrv.LogInformation("info");
             logSrv.LogWarning("warn");
             logSrv.LogError("error");
-            
-            
         }
     }
 }

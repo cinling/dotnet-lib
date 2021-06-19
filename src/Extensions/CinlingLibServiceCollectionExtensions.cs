@@ -1,6 +1,9 @@
 ﻿using System;
 using Cinling.Lib.Interfaces;
 using Cinling.Lib.Services;
+using Cinling.Lib.Structs.Cos;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection {
     
@@ -9,17 +12,21 @@ namespace Microsoft.Extensions.DependencyInjection {
     /// 服务扩展方法
     /// </summary>
     public static class CinlingLibServiceCollectionExtensions {
-        
+
         /// <summary>
         /// 添加日志服务
         /// </summary>
         /// <param name="services"></param>
         public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services) {
+            services.AddOptions();
+            services.AddLogging();
+            services.AddScoped<ILogServiceCo, LogServiceCo>();
             services.AddScoped<ILogService, LogService>();
             return services;
         }
 
-        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, Action<ILogServiceCo> configure) {
+        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, IConfiguration configuration, Action<ILogServiceCo> coAction) {
+            
             return services;
         }
     }

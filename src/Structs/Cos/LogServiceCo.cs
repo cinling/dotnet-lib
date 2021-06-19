@@ -1,40 +1,45 @@
-﻿using Cinling.Lib.Interfaces;
+﻿using System;
+using Cinling.Lib.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Cinling.Lib.Structs.Cos {
     
     /// <summary>
     /// 
     /// </summary>
-    public class LogServiceCo : BaseCo, ILogServiceCo {
+    public class LogServiceCo : BaseCo, ILogServiceCo, IConfigureOptions<LogServiceCo> {
         /// <summary>
         /// 
         /// </summary>
-        public IServiceCollection Services { get; }
-        
-        public bool IsFileLogger { get; private set; }
+        public Action<ILoggerFactory> InitLoggerFactoryAction { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly IConfiguration configuration;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="services"></param>
-        public LogServiceCo(IServiceCollection services) {
-            Services = services;
+        /// <param name="configuration"></param>
+        public LogServiceCo(IConfiguration configuration) {
+            this.configuration = configuration;
             LoadDefaultConfig();
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public void DisableFileLogger() {
-            IsFileLogger = false;
         }
 
         /// <summary>
         /// 加载默认配置
         /// </summary>
         private void LoadDefaultConfig() {
-            IsFileLogger = true;
+            this.SetInitLoggerFactoryAction(loggerFactory => {
+                loggerFactory.AddFileProvider(configuration);
+            });
+        }
+
+        public void Configure(LogServiceCo options) {
+            
         }
     }
 }
