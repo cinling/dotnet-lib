@@ -42,7 +42,7 @@ namespace Cinling.Lib.FileLogger {
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName) {
             return loggerCateDict.GetOrAdd(categoryName, name => {
-                var logger = new FileLogger(name, loggerWriter);
+                var logger = new FileLogger(name, loggerWriter, co.MinLevel);
                 return logger;
             });
         }

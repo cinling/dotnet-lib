@@ -20,13 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection {
         public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services) {
             services.AddOptions();
             services.AddLogging();
-            services.AddScoped<ILogServiceCo, LogServiceCo>();
             services.AddScoped<ILogService, LogService>();
-            return services;
-        }
-
-        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, IConfiguration configuration, Action<ILogServiceCo> coAction) {
-            
             return services;
         }
     }

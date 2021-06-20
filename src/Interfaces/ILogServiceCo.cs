@@ -8,7 +8,6 @@ namespace Cinling.Lib.Interfaces {
     /// 日志配置接口
     /// </summary>
     public interface ILogServiceCo {
-        
         /// <summary>
         /// LoggerFactory 初始化方法
         /// </summary>

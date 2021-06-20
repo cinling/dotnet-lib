@@ -12,7 +12,7 @@ namespace Cinling.Lib.FileLogger {
         /// <summary>
         /// 
         /// </summary>
-        private LogLevel level = LogLevel.None;
+        private readonly LogLevel level;
 
         /// <summary>
         /// 
@@ -37,9 +37,11 @@ namespace Cinling.Lib.FileLogger {
         /// </summary>
         /// <param name="cateName"></param>
         /// <param name="loggerWriter"></param>
-        public FileLogger(string cateName, FileLoggerWriter loggerWriter) {
+        /// <param name="level"></param>
+        public FileLogger(string cateName, FileLoggerWriter loggerWriter, LogLevel level) {
             name = cateName;
             this.loggerWriter = loggerWriter;
+            this.level = level;
         }
         
         /// <summary>
@@ -67,7 +69,7 @@ namespace Cinling.Lib.FileLogger {
         /// <param name="logLevel"></param>
         /// <returns></returns>
         public bool IsEnabled(LogLevel logLevel) {
-            return level <= logLevel;
+            return logLevel >= level;
         }
 
         /// <summary>

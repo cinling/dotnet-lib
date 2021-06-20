@@ -3,6 +3,7 @@
 using System;
 using Cinling.Lib.Interfaces;
 using Cinling.Lib.Structs.Cos;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.Services {
@@ -28,9 +29,18 @@ namespace Cinling.Lib.Services {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="co"></param>
         /// <param name="loggerFactory"></param>
-        public LogService(ILogServiceCo co, ILoggerFactory loggerFactory) {
+        /// <param name="configuration"></param>
+        public LogService(ILoggerFactory loggerFactory, IConfiguration configuration) : this(loggerFactory, new LogServiceCo(configuration)) {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        /// <param name="co"></param>
+        public LogService(ILoggerFactory loggerFactory, ILogServiceCo co) {
             this.co = co;
             this.co.InitLoggerFactoryAction(loggerFactory);
             logger = loggerFactory.CreateLogger<LogService>();

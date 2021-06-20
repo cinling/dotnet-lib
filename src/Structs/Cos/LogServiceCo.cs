@@ -16,7 +16,7 @@ namespace Cinling.Lib.Structs.Cos {
         /// </summary>
         public Action<ILoggerFactory> InitLoggerFactoryAction { get; set; }
         /// <summary>
-        /// 
+        /// 系统配置信息
         /// </summary>
         private readonly IConfiguration configuration;
 
@@ -24,6 +24,7 @@ namespace Cinling.Lib.Structs.Cos {
         /// 
         /// </summary>
         /// <param name="configuration"></param>
+        /// <param name="options"></param>
         public LogServiceCo(IConfiguration configuration) {
             this.configuration = configuration;
             LoadDefaultConfig();

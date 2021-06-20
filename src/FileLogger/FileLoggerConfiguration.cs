@@ -1,13 +1,10 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.FileLogger {
     
     public class FileLoggerConfiguration {
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly IConfiguration configuration;
 
         /// <summary>
         /// 
@@ -25,6 +22,43 @@ namespace Cinling.Lib.FileLogger {
                 return path;
             }
         }
+
+        public LogLevel MinLevel {
+            get {
+                var level = LogLevel.Trace;
+                if (configuration.GetSection("Logging:LogLevel:Default").Exists()) {
+                    switch (configuration["Logging:LogLevel:Default"].ToLower()) {
+                        case "trace":
+                            level = LogLevel.Trace;
+                            break;
+                        case "debug":
+                            level = LogLevel.Debug;
+                            break;
+                        case "information":
+                            level = LogLevel.Information;
+                            break;
+                        case "warning":
+                            level = LogLevel.Warning;
+                            break;
+                        case "error":
+                            level = LogLevel.Error;
+                            break;
+                        case "critical":
+                            level = LogLevel.Critical;
+                            break;
+                        case "none":
+                            level = LogLevel.None;
+                            break;
+                    }
+                }
+                return level;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly IConfiguration configuration;
 
         /// <summary>
         /// 

@@ -17,7 +17,7 @@ namespace LibTest.Services {
         }
 
         [Test]
-        public void logInformation() {
+        public void LogInformation() {
             logSrv.LogInformation("info");
             logSrv.LogWarning("warn");
             logSrv.LogError("error");
