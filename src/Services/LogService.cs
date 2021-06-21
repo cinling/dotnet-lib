@@ -2,9 +2,11 @@
 
 using System;
 using Cinling.Lib.Interfaces;
+using Cinling.Lib.Options;
 using Cinling.Lib.Structs.Cos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Cinling.Lib.Services {
 
@@ -16,33 +18,13 @@ namespace Cinling.Lib.Services {
     /// 日志服务
     /// </summary>
     public class LogService : ILogService {
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly ILogServiceCo co;
         /// <summary>
         /// 
         /// </summary>
         private readonly ILogger<LogService> logger;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <param name="configuration"></param>
-        public LogService(ILoggerFactory loggerFactory, IConfiguration configuration) : this(loggerFactory, new LogServiceCo(configuration)) {
-            
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <param name="co"></param>
-        public LogService(ILoggerFactory loggerFactory, ILogServiceCo co) {
-            this.co = co;
-            this.co.InitLoggerFactoryAction(loggerFactory);
+        public LogService(IConfiguration configuration, ILoggerFactory loggerFactory, IOptions<LogServiceOptions> options) {
+            options.Value.InitLoggerFactoryFunc(loggerFactory, configuration);
             logger = loggerFactory.CreateLogger<LogService>();
         }
 

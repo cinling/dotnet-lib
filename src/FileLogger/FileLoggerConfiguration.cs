@@ -1,9 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.FileLogger {
     
+    
+    [Obsolete]
     public class FileLoggerConfiguration {
 
         /// <summary>

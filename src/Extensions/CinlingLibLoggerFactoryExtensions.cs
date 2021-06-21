@@ -1,4 +1,5 @@
-﻿using Cinling.Lib.FileLogger;
+﻿using System;
+using Cinling.Lib.FileLogger;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.Logging {

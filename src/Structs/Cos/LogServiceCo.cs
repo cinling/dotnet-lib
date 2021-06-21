@@ -24,7 +24,6 @@ namespace Cinling.Lib.Structs.Cos {
         /// 
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="options"></param>
         public LogServiceCo(IConfiguration configuration) {
             this.configuration = configuration;
             LoadDefaultConfig();

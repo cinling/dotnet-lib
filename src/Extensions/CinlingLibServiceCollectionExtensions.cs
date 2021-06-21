@@ -1,9 +1,11 @@
 ﻿using System;
 using Cinling.Lib.Interfaces;
+using Cinling.Lib.Options;
 using Cinling.Lib.Services;
 using Cinling.Lib.Structs.Cos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Extensions.DependencyInjection {
     
@@ -17,7 +19,21 @@ namespace Microsoft.Extensions.DependencyInjection {
         /// 添加日志服务
         /// </summary>
         /// <param name="services"></param>
-        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services) {
+        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services) => AddCinlingLibLogService(services, new LogServiceOptionsBuilder());
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, LogServiceOptionsBuilder builder) => AddCinlingLibLogService(services, options => {
+            options.MinLevel = builder.MinLevel ?? options.MinLevel;
+            options.InitLoggerFactoryFunc = builder.InitLoggerFactoryFunc ?? options.InitLoggerFactoryFunc;
+        });
+
+        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, Action<LogServiceOptions> optionsAction) {
+            services.AddOptions<LogServiceOptions>().Configure(optionsAction);
             services.AddOptions();
             services.AddLogging();
             services.AddScoped<ILogService, LogService>();

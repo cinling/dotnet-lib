@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Cinling.Lib.Options;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LibTest {
     public class StartUp {
@@ -16,7 +18,9 @@ namespace LibTest {
         }
 
         public void ConfigureServices(IServiceCollection services) {
-            services.AddCinlingLibLogService();
+            services.AddCinlingLibLogService(new LogServiceOptionsBuilder {
+                MinLevel = LogLevel.Information
+            });
         }
     }
 }
