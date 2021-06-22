@@ -59,8 +59,8 @@ namespace Cinling.Lib.FileLogger {
                 return;
             }
 
-            var content = formatter(state, exception);
-            loggerWriter.Write(content);
+            var message = formatter(state, exception);
+            loggerWriter.Write(message);
         }
 
         /// <summary>

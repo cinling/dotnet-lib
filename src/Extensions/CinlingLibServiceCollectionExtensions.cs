@@ -28,14 +28,15 @@ namespace Microsoft.Extensions.DependencyInjection {
         /// <param name="builder"></param>
         /// <returns></returns>
         public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, LogServiceOptionsBuilder builder) => AddCinlingLibLogService(services, options => {
-            options.MinLevel = builder.MinLevel ?? options.MinLevel;
-            options.InitLoggerFactoryFunc = builder.InitLoggerFactoryFunc ?? options.InitLoggerFactoryFunc;
+            options.SetWithBuilder(builder);
         });
 
         public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, Action<LogServiceOptions> optionsAction) {
             services.AddOptions<LogServiceOptions>().Configure(optionsAction);
             services.AddOptions();
-            services.AddLogging();
+            services.AddLogging(builder => {
+                builder.AddFile();
+            });
             services.AddScoped<ILogService, LogService>();
             return services;
         }

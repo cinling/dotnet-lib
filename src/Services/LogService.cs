@@ -24,7 +24,7 @@ namespace Cinling.Lib.Services {
         private readonly ILogger<LogService> logger;
 
         public LogService(IConfiguration configuration, ILoggerFactory loggerFactory, IOptions<LogServiceOptions> options) {
-            options.Value.InitLoggerFactoryFunc(loggerFactory, configuration);
+            options.Value.InitLoggerFactoryAction(loggerFactory, configuration);
             logger = loggerFactory.CreateLogger<LogService>();
         }
 
