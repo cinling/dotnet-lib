@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 
 namespace Cinling.Lib.Utils {
     
@@ -6,6 +7,7 @@ namespace Cinling.Lib.Utils {
     /// JSON encode and decode tools
     /// JSON 序列化、反序列化工具
     /// </summary>
+    [Obsolete]
     public static class JsonUtil {
         /// <summary>
         /// JSON encode

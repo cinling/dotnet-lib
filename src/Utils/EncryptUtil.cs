@@ -7,6 +7,7 @@ namespace Cinling.Lib.Utils {
     /// Encryption tool
     /// 加密工具
     /// </summary>
+    [Obsolete("Replace with Cinling.Lib.Helpers.EncryptHelper")]
     public static class EncryptUtil {
 
         /// <summary>
