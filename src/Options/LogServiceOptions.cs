@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using Cinling.Lib.FileLogger;
 using Cinling.Lib.Helpers;
+using Cinling.Lib.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.Options {
@@ -10,7 +11,7 @@ namespace Cinling.Lib.Options {
     /// <summary>
     /// 日志配置选项
     /// </summary>
-    public class LogServiceOptions {
+    public class LogServiceOptions : ICloneWith {
         /// <summary>
         /// 默认日志等级
         /// </summary>
@@ -21,14 +22,5 @@ namespace Cinling.Lib.Options {
         public Action<ILoggerFactory, FileLoggerOptions> InitLoggerFactoryAction { get; set; } = delegate(ILoggerFactory factory, FileLoggerOptions options) {
             factory.AddFileProvider(options);
         };
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="options"></param>
-        public void Reset(LogServiceOptions options) {
-            MinLevel = options.MinLevel;
-            InitLoggerFactoryAction = options.InitLoggerFactoryAction;
-        }
     }
 }

@@ -26,10 +26,10 @@ namespace Microsoft.Extensions.DependencyInjection {
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="newOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public static IServiceCollection AddLogServiceScoped(this IServiceCollection services, LogServiceOptions newOptions) => AddLogServiceScoped(services, options => {
-            options.Reset(newOptions);
+        public static IServiceCollection AddLogServiceScoped(this IServiceCollection services, LogServiceOptions options) => AddLogServiceScoped(services, originOptions => {
+            originOptions.CloneWith(options);
         }, _ => {});
 
         /// <summary>
