@@ -8,6 +8,9 @@
     <Title>Lib</Title>
     <Authors>Cinling</Authors>
     <RootNamespace>Cinling.Lib</RootNamespace>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/cinling/dotnet-lib</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
