@@ -18,9 +18,7 @@ namespace LibTest {
         }
 
         public void ConfigureServices(IServiceCollection services) {
-            services.AddCinlingLibLogService(new LogServiceOptionsBuilder {
-                MinLevel = LogLevel.Information
-            });
+            services.AddLogServiceScoped();
         }
     }
 }

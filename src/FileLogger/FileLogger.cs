@@ -7,12 +7,9 @@ namespace Cinling.Lib.FileLogger {
         /// <summary>
         /// 
         /// </summary>
-        private string name;
+        protected string name;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly LogLevel level;
+        private readonly FileLoggerOptions options;
 
         /// <summary>
         /// 
@@ -23,25 +20,26 @@ namespace Cinling.Lib.FileLogger {
         /// 
         /// </summary>
         private class FileLoggerDisposable : IDisposable {
+            public Action DisposeAction { get; set; } = () => {};
+
+            /// <summary>
+            /// 
+            /// </summary>
             public void Dispose() {
+                DisposeAction();
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        private readonly FileLoggerDisposable disposable = new();
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="cateName"></param>
         /// <param name="loggerWriter"></param>
-        /// <param name="level"></param>
-        public FileLogger(string cateName, FileLoggerWriter loggerWriter, LogLevel level) {
+        /// <param name="options"></param>
+        public FileLogger(string cateName, FileLoggerWriter loggerWriter, FileLoggerOptions options) {
             name = cateName;
             this.loggerWriter = loggerWriter;
-            this.level = level;
+            this.options = options;
         }
         
         /// <summary>
@@ -58,8 +56,8 @@ namespace Cinling.Lib.FileLogger {
             if (!IsEnabled(logLevel)) {
                 return;
             }
-
             var message = formatter(state, exception);
+            message = options.MessageFormatter(logLevel, name, eventId.Id, message, exception);
             loggerWriter.Write(message);
         }
 
@@ -69,7 +67,7 @@ namespace Cinling.Lib.FileLogger {
         /// <param name="logLevel"></param>
         /// <returns></returns>
         public bool IsEnabled(LogLevel logLevel) {
-            return logLevel >= level;
+            return logLevel >= options.MinLevel;
         }
 
         /// <summary>
@@ -79,6 +77,12 @@ namespace Cinling.Lib.FileLogger {
         /// <typeparam name="TState"></typeparam>
         /// <returns></returns>
         public IDisposable BeginScope<TState>(TState state) {
+            var originName = name;
+            name = state.ToString();
+            var disposable = new FileLoggerDisposable();
+            disposable.DisposeAction = () => {
+                name = originName;
+            };
             return disposable;
         }
     }

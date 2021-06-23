@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 
 namespace Cinling.Lib.FileLogger {
@@ -13,26 +14,33 @@ namespace Cinling.Lib.FileLogger {
         /// <summary>
         /// 
         /// </summary>
-        private readonly FileLoggerConfiguration co;
+        private readonly FileLoggerOptions options;
         /// <summary>
         /// 
         /// </summary>
-        private readonly FileLoggerWriter loggerWriter;
+        private FileLoggerWriter loggerWriter;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="configuration"></param>
-        public FileLoggerProvider(FileLoggerConfiguration configuration) {
-            co = configuration;
-            loggerWriter = new FileLoggerWriter(co.SavePath);
+        /// <param name="options"></param>
+        public FileLoggerProvider(FileLoggerOptions options) {
+            this.options = options;
+            OnInit();
         }
         
         /// <summary>
         /// 
         /// </summary>
         public void Dispose() {
-            loggerWriter.BeginWriteQueue();
+            loggerWriter?.Dispose();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected void OnInit() {
+            loggerWriter = new FileLoggerWriter(options);
         }
 
         /// <summary>
@@ -42,7 +50,7 @@ namespace Cinling.Lib.FileLogger {
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName) {
             return loggerCateDict.GetOrAdd(categoryName, name => {
-                var logger = new FileLogger(name, loggerWriter, co.MinLevel);
+                var logger = new FileLogger(name, loggerWriter, options);
                 return logger;
             });
         }

@@ -8,11 +8,11 @@ using NUnit.Framework;
 
 namespace LibTest.Services {
     public class LogServiceTest {
-        private readonly TestServer server;
+        // private readonly TestServer server;
         private readonly ILogService logSrv;
         
         public LogServiceTest() {
-            server = new TestServer(new WebHostBuilder().UseStartup<StartUp>());
+            var server = new TestServer(new WebHostBuilder().UseStartup<StartUp>());
             logSrv = server.Host.Services.GetService<ILogService>();
         }
 
@@ -20,6 +20,10 @@ namespace LibTest.Services {
         public void LogInformation() {
             logSrv.LogInformation("info");
             logSrv.LogWarning("warn");
+            logSrv.LogError("error");
+            using (logSrv.BeginScope("abc")) {
+                logSrv.LogInformation("info");
+            }
             logSrv.LogError("error");
         }
     }

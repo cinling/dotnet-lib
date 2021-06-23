@@ -1,10 +1,8 @@
 ﻿#nullable enable
 
 using System;
-using Cinling.Lib.Interfaces;
+using Cinling.Lib.FileLogger;
 using Cinling.Lib.Options;
-using Cinling.Lib.Structs.Cos;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -23,8 +21,8 @@ namespace Cinling.Lib.Services {
         /// </summary>
         private readonly ILogger<LogService> logger;
 
-        public LogService(IConfiguration configuration, ILoggerFactory loggerFactory, IOptions<LogServiceOptions> options) {
-            options.Value.InitLoggerFactoryAction(loggerFactory, configuration);
+        public LogService(ILoggerFactory loggerFactory, IOptions<LogServiceOptions> iLogServiceOptions, IOptions<FileLoggerOptions> iFileLoggerOptions) {
+            iLogServiceOptions.Value.InitLoggerFactoryAction(loggerFactory, iFileLoggerOptions.Value);
             logger = loggerFactory.CreateLogger<LogService>();
         }
 

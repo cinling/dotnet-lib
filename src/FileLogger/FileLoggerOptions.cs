@@ -15,6 +15,10 @@ namespace Cinling.Lib.FileLogger {
         /// 文件保存路径
         /// </summary>
         public string SavePath { get; set; } = Directory.GetCurrentDirectory() + "/runtime/cin-log";
+        /// <summary>
+        /// 
+        /// </summary>
+        public LogLevel MinLevel { get; set; } = LogLevel.Information;
 
         /// <summary>
         /// 
@@ -29,25 +33,13 @@ namespace Cinling.Lib.FileLogger {
         };
 
         /// <summary>
-        /// 使用 builder 重构配置
+        /// 
         /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public FileLoggerOptions SetWithBuilder(FileLoggerOptionsBuilder builder) {
-            SavePath = builder.SavePath ?? SavePath;
-            MessageFormatter = builder.MessageFormatter ?? MessageFormatter;
-            return this;
+        /// <param name="options"></param>
+        public void Reset(FileLoggerOptions options) {
+            SavePath = options.SavePath;
+            MinLevel = options.MinLevel;
+            MessageFormatter = options.MessageFormatter;
         }
-    }
-
-    public class FileLoggerOptionsBuilder {
-        /// <summary>
-        /// 
-        /// </summary>
-        public string? SavePath { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Func<LogLevel, string, int, string, Exception?, string>? MessageFormatter { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinling.Lib.FileLogger;
 using Cinling.Lib.Interfaces;
 using Cinling.Lib.Options;
 using Cinling.Lib.Services;
@@ -19,24 +20,30 @@ namespace Microsoft.Extensions.DependencyInjection {
         /// 添加日志服务
         /// </summary>
         /// <param name="services"></param>
-        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services) => AddCinlingLibLogService(services, new LogServiceOptionsBuilder());
+        public static IServiceCollection AddLogServiceScoped(this IServiceCollection services) => AddLogServiceScoped(services, new LogServiceOptions());
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="builder"></param>
+        /// <param name="newOptions"></param>
         /// <returns></returns>
-        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, LogServiceOptionsBuilder builder) => AddCinlingLibLogService(services, options => {
-            options.SetWithBuilder(builder);
-        });
+        public static IServiceCollection AddLogServiceScoped(this IServiceCollection services, LogServiceOptions newOptions) => AddLogServiceScoped(services, options => {
+            options.Reset(newOptions);
+        }, _ => {});
 
-        public static IServiceCollection AddCinlingLibLogService(this IServiceCollection services, Action<LogServiceOptions> optionsAction) {
-            services.AddOptions<LogServiceOptions>().Configure(optionsAction);
+        /// <summary>
+        /// 最终初始化方法
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="optionsAction"></param>
+        /// <param name="fileLoggerOptionsAction"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddLogServiceScoped(this IServiceCollection services, Action<LogServiceOptions> optionsAction, Action<FileLoggerOptions> fileLoggerOptionsAction) {
             services.AddOptions();
-            services.AddLogging(builder => {
-                builder.AddFile();
-            });
+            services.AddOptions<LogServiceOptions>().Configure(optionsAction);
+            services.AddOptions<FileLoggerOptions>().Configure(fileLoggerOptionsAction);
+            services.AddLogging();
             services.AddScoped<ILogService, LogService>();
             return services;
         }
