@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cinling.Lib.Interfaces;
 using Cinling.Lib.Structs.Vos;
 
 namespace Cinling.Lib.Structs.Ios {
@@ -35,9 +36,9 @@ namespace Cinling.Lib.Structs.Ios {
         /// 
         /// </summary>
         /// <returns></returns>
-        public new Dictionary<string, object> ToDict() {
-            var dict = base.ToDict();
-            foreach (var pair in this.extParams) {
+        public new Dictionary<string, object> ToDictionary() {
+            var dict = base.ToDictionary();
+            foreach (var pair in extParams) {
                 dict.TryAdd(pair.Key, pair.Value);
             }
             return dict;
