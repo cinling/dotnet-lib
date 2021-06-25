@@ -1,4 +1,8 @@
-﻿namespace Cinling.Lib.Interfaces {
+﻿using System;
+
+namespace Cinling.Lib.Interfaces {
+    
+    [Obsolete]
     public interface IOnInit {
         void OnInit();
     }
