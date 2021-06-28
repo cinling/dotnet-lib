@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 
 namespace Cinling.Lib.Interfaces {
-    
+
     /// <summary>
     /// 
     /// </summary>
     public interface IToDictionary {
         Dictionary<string, object> ToDictionary();
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -37,30 +37,33 @@ namespace Cinling.Lib.Interfaces {
         /// <param name="originValue"></param>
         /// <returns></returns>
         private static object Implement_ToDictionary_ParseValue(object originValue) {
-            object value = null;
+            object value;
             if (originValue is IToDictionary toDictionary) {
                 value = toDictionary.ToDictionary();
-            } else if (originValue is ICollection collection) {
+            }
+            else if (originValue is ICollection collection) {
                 if (collection is IList list) {
                     value = new List<object>();
                     foreach (var item in list) {
                         var subValue = Implement_ToDictionary_ParseValue(item);
                         ((IList) value).Add(subValue);
                     }
-                } else if (collection is IDictionary dictionary) {
+                }
+                else if (collection is IDictionary dictionary) {
                     value = new Dictionary<object, object>();
                     foreach (DictionaryEntry pair in dictionary) {
                         var subValue = Implement_ToDictionary_ParseValue(pair.Value);
                         ((IDictionary) value).Add(pair.Key, subValue);
                     }
-                } else {
+                }
+                else {
                     value = collection;
                 }
             }
             else {
                 value = originValue;
             }
-          
+
             return value;
         }
     }

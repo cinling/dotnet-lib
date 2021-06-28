@@ -30,6 +30,10 @@ namespace Cinling.Lib.Structs.Vos {
             return JsonSerializer.Serialize(ToDictionary());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, object> ToDictionary() {
             return this.__ToDictionary();
         }
