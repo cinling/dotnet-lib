@@ -16,23 +16,23 @@ namespace LibTest.Structs.Vos {
             var vo = new AppleVo {Weight = 1.1f, Color = "red"};
             Assert.AreEqual(vo.ToDictionary(), new Dictionary<string, object> {{"Weight", 1.1f}, {"Color", "red"}});
             
-            // // Test2
-            // var branchVo = new AppleBranchVo {LeafNum = 100};
-            // branchVo.AppleVoList.Add(new AppleVo {Weight = 1.0f, Color = "red"});
-            // branchVo.AppleVoList.Add(new AppleVo {Weight = 1.2f, Color = "green"});
-            // Assert.AreEqual(branchVo.ToDictionary(), new Dictionary<string, object> {
-            //     {"LeafNum", 100},
-            //     {"AppleVoList", new List<Dictionary<string, object>> {
-            //         new() {
-            //             {"Weight", 1.0f},
-            //             {"Color", "red"}
-            //         },
-            //         new () {
-            //             {"Weight", 1.2f},
-            //             {"Color", "green"}
-            //         }
-            //     }}
-            // });
+            // Test2
+            var branchVo = new AppleBranchVo {LeafNum = 100};
+            branchVo.AppleVoList.Add(new AppleVo {Weight = 1.0f, Color = "red"});
+            branchVo.AppleVoList.Add(new AppleVo {Weight = 1.2f, Color = "green"});
+            Assert.AreEqual(branchVo.ToDictionary(), new Dictionary<string, object> {
+                {"LeafNum", 100},
+                {"AppleVoList", new List<Dictionary<string, object>> {
+                    new() {
+                        {"Weight", 1.0f},
+                        {"Color", "red"}
+                    },
+                    new () {
+                        {"Weight", 1.2f},
+                        {"Color", "green"}
+                    }
+                }}
+            });
         }
     }
 
