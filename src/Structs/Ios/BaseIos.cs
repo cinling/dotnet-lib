@@ -36,7 +36,7 @@ namespace Cinling.Lib.Structs.Ios {
         /// 
         /// </summary>
         /// <returns></returns>
-        public new Dictionary<string, object> ToDictionary() {
+        public new IDictionary<string, object> ToDictionary() {
             var dict = base.ToDictionary();
             foreach (var pair in extParams) {
                 dict.TryAdd(pair.Key, pair.Value);

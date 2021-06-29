@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using Cinling.Lib.Interfaces;
 
 namespace Cinling.Lib.Structs.Vos {
@@ -8,7 +7,7 @@ namespace Cinling.Lib.Structs.Vos {
     /// <summary>
     /// 
     /// </summary>
-    public abstract class BaseVo : IDisposable, IToDictionary {
+    public abstract class BaseVo : IDisposable, ICanDictionary, IJsonSerializable {
 
         public BaseVo() {
             OnInit();    
@@ -27,15 +26,28 @@ namespace Cinling.Lib.Structs.Vos {
         /// </summary>
         /// <returns></returns>
         public string ToJson() {
-            return JsonSerializer.Serialize(ToDictionary());
+            return this.__ToJson();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="json"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void SetByJson(string json) {
+            this.__SetByJson(json);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, object> ToDictionary() {
+        public IDictionary<string, object> ToDictionary() {
             return this.__ToDictionary();
+        }
+
+        public void SetByDictionary(IDictionary<string, object> dictionary) {
+            this.__SetByDictionary(dictionary);
         }
     }
 }
