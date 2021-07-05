@@ -25,7 +25,7 @@ namespace Cinling.Lib.FileLogger {
         /// </summary>
         public Func<LogLevel, string, int, string, Exception?, string> MessageFormatter { get; set; } = delegate(LogLevel level, string logName, int eventId, string message, Exception? exception) {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"[{eventId}-{logName}][{TimeHelper.datetime()} {level} {message}]" + Environment.NewLine);
+            stringBuilder.Append($"[{eventId}-{logName}][{TimeHelper.Datetime()} {level} {message}]" + Environment.NewLine);
             if (exception != null) {
                 stringBuilder.Append(exception);
             }

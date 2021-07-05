@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.Logging {
     /// ILoggerFactory Extensions
     /// 日志扩展
     /// </summary>
-    public static class CinlingLibFileLoggerFactoryExtensions {
+    public static class FileLoggerFactoryExtensions {
         public static ILoggerFactory AddFileProvider(this ILoggerFactory factory, FileLoggerOptions options) {
             factory.AddProvider(new FileLoggerProvider(options));
             return factory;

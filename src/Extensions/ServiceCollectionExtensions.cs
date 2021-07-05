@@ -3,10 +3,6 @@ using Cinling.Lib.FileLogger;
 using Cinling.Lib.Interfaces;
 using Cinling.Lib.Options;
 using Cinling.Lib.Services;
-using Cinling.Lib.Structs.Cos;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Extensions.DependencyInjection {
     
@@ -14,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection {
     /// IServiceCollection Extensions
     /// 服务扩展方法
     /// </summary>
-    public static class CinlingLibServiceCollectionExtensions {
+    public static class ServiceCollectionExtensions {
 
         /// <summary>
         /// 添加日志服务
