@@ -54,7 +54,7 @@ namespace Cinling.Lib.Interfaces {
             var type = ins.GetType();
             foreach (var property in type.GetProperties()) {
                 if (dictionary.TryGetValue(property.Name, out var propValue)) {
-                    var value = Implement_SetByDictionary_ParseProp(property.GetType(), propValue);
+                    var value = Implement_SetByDictionary_ParseProp(property.PropertyType, propValue);
                     property.SetValue(ins, value);
                 }
             }
@@ -67,15 +67,15 @@ namespace Cinling.Lib.Interfaces {
         private static object Implement_SetByDictionary_ParseProp(Type propType, object propValue) {
             object value;
 
-            if (propType.IsValueType) {
+            if (propType.IsValueType || propType == typeof(string)) {
                 value = propValue;
             }
-            else if (propType.IsInstanceOfType(typeof(ICanDictionary)) && propValue is IDictionary<string, object> objDict) {
+            else if (propType.IsImplementsBy(typeof(ICanDictionary)) && propValue is IDictionary<string, object> objDict) {
                 var subObj = (ICanDictionary) CreateInstance(propType);
                 subObj?.SetByDictionary(objDict);
                 value = subObj;
             }
-            else if (propType.IsInstanceOfType(typeof(IList)) && propValue is IList list) {
+            else if (propType.IsImplementsBy(typeof(IList)) && propValue is IList list) {
                 var subList = (IList) CreateInstance(propType);
                 if (subList != null) {
                     foreach (var item in list) {
@@ -85,7 +85,7 @@ namespace Cinling.Lib.Interfaces {
                 }
                 value = subList;
             }
-            else if (propType.IsInstanceOfType(typeof(IDictionary)) && propValue is IDictionary dict) {
+            else if (propType.IsImplementsBy(typeof(IDictionary)) && propValue is IDictionary dict) {
                 var genericTypes = propType.GetGenericArguments();
                 if (genericTypes.Length != 2) {
                     value = dict;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cinling.Lib.Interfaces;
 using Cinling.Lib.Structs.Vos;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -11,6 +12,17 @@ namespace LibTest.Structs.Vos {
     /// 
     /// </summary>
     public class BaseVoTest {
+
+        [Test]
+        public void test1() {
+            var vo = new AppleVo();
+            if (vo is ICanDictionary dictionary) {
+                Console.Out.Write("can");
+            }
+            else {
+                Console.Out.Write("cannot");
+            }
+        }
 
         /**
          * ICanDictionary 接口测试
@@ -103,14 +115,14 @@ namespace LibTest.Structs.Vos {
 
     public class AppleBranchVo : BaseVo {
         public int LeafNum { get; set; }
-        public List<AppleVo> AppleVoList { get; } = new();
+        public List<AppleVo> AppleVoList { get; set; } = new();
     }
 
     public class AppleTreeVo : BaseVo {
         /// <summary>
         /// 
         /// </summary>
-        public Dictionary<string, List<AppleBranchVo>> branchVoListDict { get; } = new();
+        public Dictionary<string, List<AppleBranchVo>> branchVoListDict { get; set; } = new();
         /// <summary>
         /// 
         /// </summary>
