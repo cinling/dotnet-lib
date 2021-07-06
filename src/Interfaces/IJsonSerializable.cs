@@ -26,18 +26,20 @@ namespace Cinling.Lib.Interfaces {
         /// 
         /// </summary>
         /// <param name="serializable"></param>
-        /// <returns></returns>
-        public static string __ToJson(this IJsonSerializable serializable) {
-            return JsonSerializer.Serialize(serializable);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="serializable"></param>
         /// <param name="json"></param>
         public static void __SetByJson(this IJsonSerializable serializable, string json) {
-            JsonSerializer.Deserialize<object>(json);
+            var jsonObj = JsonSerializer.Deserialize<object>(json);
+            if (jsonObj == null) {
+                return;
+            }
+            var jsonType = jsonObj.GetType();
+            var properties = serializable.GetType().GetProperties();
+            foreach (var property in properties) {
+                var jsonProperty = jsonType.GetProperty(property.Name);
+                if (jsonProperty != null && jsonProperty.CanRead && property.CanWrite) {
+                    property.SetValue(serializable, jsonProperty.GetValue(jsonObj, null));
+                }
+            }
         }
     }
 }

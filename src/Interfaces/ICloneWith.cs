@@ -24,7 +24,7 @@ namespace Cinling.Lib.Interfaces {
             var properties = type.GetProperties();
             foreach (var property in properties) {
                 var objValue = objType.GetProperty(property.Name)?.GetValue(obj, null);
-                property.SetValue(objValue, null);
+                property.SetValue(cloneWith, objValue);
             }
         }
     }

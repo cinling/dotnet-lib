@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using Cinling.Lib.Interfaces;
 
 namespace Cinling.Lib.Structs.Vos {
@@ -26,7 +27,7 @@ namespace Cinling.Lib.Structs.Vos {
         /// </summary>
         /// <returns></returns>
         public string ToJson() {
-            return this.__ToJson();
+            return JsonSerializer.Serialize(ToDictionary());
         }
 
         /// <summary>

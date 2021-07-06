@@ -76,14 +76,21 @@ namespace Cinling.Lib.Interfaces {
                 value = subObj;
             }
             else if (propType.IsImplementsBy(typeof(IList)) && propValue is IList list) {
-                var subList = (IList) CreateInstance(propType);
-                if (subList != null) {
-                    foreach (var item in list) {
-                        var subValue = Implement_SetByDictionary_ParseProp(item.GetType(), item);
-                        subList.Add(subValue);
-                    }
+                var genericTypes = propType.GetGenericArguments();
+                if (genericTypes.Length > 1) {
+                    value = list;
                 }
-                value = subList;
+                else {
+                    var subList = (IList) CreateInstance(propType);
+                    var genericType = genericTypes[0];
+                    if (subList != null) {
+                        foreach (var item in list) {
+                            var subValue = Implement_SetByDictionary_ParseProp(genericType, item);
+                            subList.Add(subValue);
+                        }
+                    }
+                    value = subList;
+                }
             }
             else if (propType.IsImplementsBy(typeof(IDictionary)) && propValue is IDictionary dict) {
                 var genericTypes = propType.GetGenericArguments();
