@@ -106,6 +106,15 @@ namespace LibTest.Structs.Vos {
             // var treeVoDict = 
             // Assert.AreEqual(treeVo.ToDictionary(), );
         }
+
+        [Test]
+        public void JsonSerializable() {
+            var vo1 = new AppleVo {Weight = 1f, Color = "red"};
+            var json = vo1.ToJson();
+            var vo2 = new AppleVo();
+            vo2.SetByJson(json);
+            Assert.AreEqual(vo1, vo2);
+        }
     }
 
     public class AppleVo : BaseVo {
