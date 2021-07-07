@@ -12,18 +12,6 @@ namespace LibTest.Structs.Vos {
     /// 
     /// </summary>
     public class BaseVoTest {
-
-        [Test]
-        public void test1() {
-            var vo = new AppleVo();
-            if (vo is ICanDictionary dictionary) {
-                Console.Out.Write("can");
-            }
-            else {
-                Console.Out.Write("cannot");
-            }
-        }
-
         /**
          * ICanDictionary 接口测试
          */
@@ -111,9 +99,10 @@ namespace LibTest.Structs.Vos {
         public void JsonSerializable() {
             var vo1 = new AppleVo {Weight = 1f, Color = "red"};
             var json = vo1.ToJson();
+            Assert.AreEqual(json, @"{""Weight"":1,""Color"":""red""}");
             var vo2 = new AppleVo();
             vo2.SetByJson(json);
-            Assert.AreEqual(vo1, vo2);
+            Assert.AreEqual(json, vo2.ToJson());
         }
     }
 

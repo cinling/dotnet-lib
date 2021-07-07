@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using static System.Activator;
 
 namespace Cinling.Lib.Interfaces {
 
@@ -39,7 +36,7 @@ namespace Cinling.Lib.Interfaces {
             var dict = new Dictionary<string, object>();
             foreach (var property in type.GetProperties()) {
                 var value = property.CanRead ? property.GetValue(obj, null) : null;
-                value = Implement_ToDictionary_ParseValue(value);
+                value = ParseValue(value);
                 dict.TryAdd(property.Name, value);
             }
             return dict;
@@ -54,7 +51,7 @@ namespace Cinling.Lib.Interfaces {
             var type = ins.GetType();
             foreach (var property in type.GetProperties()) {
                 if (dictionary.TryGetValue(property.Name, out var propValue)) {
-                    var value = Implement_SetByDictionary_ParseProp(property.PropertyType, propValue);
+                    var value = ParseProp(property.PropertyType, propValue);
                     property.SetValue(ins, value);
                 }
             }
@@ -64,44 +61,44 @@ namespace Cinling.Lib.Interfaces {
         /// 
         /// </summary>
         /// <returns></returns>
-        private static object Implement_SetByDictionary_ParseProp(Type propType, object propValue) {
+        private static object ParseProp(Type propType, object propValue) {
             object value;
 
             if (propType.IsValueType || propType == typeof(string)) {
                 value = propValue;
             }
-            else if (propType.IsImplementsBy(typeof(ICanDictionary)) && propValue is IDictionary<string, object> objDict) {
-                var subObj = (ICanDictionary) CreateInstance(propType);
+            else if (propType.IsImplements(typeof(ICanDictionary)) && propValue is IDictionary<string, object> objDict) {
+                var subObj = (ICanDictionary) propType.CreateInstance();
                 subObj?.SetByDictionary(objDict);
                 value = subObj;
             }
-            else if (propType.IsImplementsBy(typeof(IList)) && propValue is IList list) {
+            else if (propType.IsImplements(typeof(IList)) && propValue is IList list) {
                 var genericTypes = propType.GetGenericArguments();
                 if (genericTypes.Length > 1) {
                     value = list;
                 }
                 else {
-                    var subList = (IList) CreateInstance(propType);
+                    var subList = (IList) propType.CreateInstance();
                     var genericType = genericTypes[0];
                     if (subList != null) {
                         foreach (var item in list) {
-                            var subValue = Implement_SetByDictionary_ParseProp(genericType, item);
+                            var subValue = ParseProp(genericType, item);
                             subList.Add(subValue);
                         }
                     }
                     value = subList;
                 }
             }
-            else if (propType.IsImplementsBy(typeof(IDictionary)) && propValue is IDictionary dict) {
+            else if (propType.IsImplements(typeof(IDictionary)) && propValue is IDictionary dict) {
                 var genericTypes = propType.GetGenericArguments();
                 if (genericTypes.Length != 2) {
                     value = dict;
                 } 
                 else {
-                    var subDict = (IDictionary) CreateInstance(propType);
+                    var subDict = (IDictionary) propType.CreateInstance();
                     if (subDict != null) {
                         foreach (DictionaryEntry pair in dict) {
-                            var subValue = Implement_SetByDictionary_ParseProp(pair.Value?.GetType(), pair.Value);
+                            var subValue = ParseProp(pair.Value?.GetType(), pair.Value);
                             subDict.Add(pair.Key, subValue);
                         }
                     }
@@ -119,7 +116,7 @@ namespace Cinling.Lib.Interfaces {
         /// </summary>
         /// <param name="originValue"></param>
         /// <returns></returns>
-        private static object Implement_ToDictionary_ParseValue(object originValue) {
+        private static object ParseValue(object originValue) {
             object value;
             if (originValue is ICanDictionary canDictionary) {
                 value = canDictionary.ToDictionary();
@@ -128,14 +125,14 @@ namespace Cinling.Lib.Interfaces {
                 if (collection is IList list) {
                     value = new List<object>();
                     foreach (var item in list) {
-                        var subValue = Implement_ToDictionary_ParseValue(item);
+                        var subValue = ParseValue(item);
                         ((IList) value).Add(subValue);
                     }
                 }
                 else if (collection is IDictionary dictionary) {
                     value = new Dictionary<object, object>();
                     foreach (DictionaryEntry pair in dictionary) {
-                        var subValue = Implement_ToDictionary_ParseValue(pair.Value);
+                        var subValue = ParseValue(pair.Value);
                         ((IDictionary) value).Add(pair.Key, subValue);
                     }
                 }
