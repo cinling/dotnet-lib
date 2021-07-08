@@ -1,5 +1,7 @@
-﻿#nullable enable
-namespace System {
+﻿using System;
+
+#nullable enable
+namespace Cinling.Lib.Extensions {
 
 
     public static class TypeExtensions {

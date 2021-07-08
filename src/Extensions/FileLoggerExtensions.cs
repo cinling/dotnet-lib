@@ -1,9 +1,7 @@
-﻿using System;
-using Cinling.Lib.FileLogger;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Cinling.Lib.FileLogger;
+using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Extensions.Logging {
+namespace Cinling.Lib.Extensions {
     
     /// <summary>
     /// ILoggerFactory Extensions

@@ -1,4 +1,5 @@
-﻿using Cinling.Lib.Options;
+﻿using Cinling.Lib.Extensions;
+using Cinling.Lib.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -3,8 +3,9 @@ using Cinling.Lib.FileLogger;
 using Cinling.Lib.Interfaces;
 using Cinling.Lib.Options;
 using Cinling.Lib.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection {
+namespace Cinling.Lib.Extensions {
     
     /// <summary>
     /// IServiceCollection Extensions

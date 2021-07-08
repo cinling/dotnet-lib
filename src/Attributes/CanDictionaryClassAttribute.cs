@@ -6,7 +6,7 @@ using Cinling.Lib.Extensions;
 namespace Cinling.Lib.Attributes {
 
     /// <summary>
-    /// ICanDictionary 的属性。用于
+    /// ICanDictionary 的属性。用于字段在 ToDictionary() 和 SetByDictionary() 的时候转换字段名
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
     public class CanDictionaryClassAttribute : Attribute {
@@ -30,16 +30,16 @@ namespace Cinling.Lib.Attributes {
         /// <param name="prop"></param>
         /// <returns></returns>
         public string ParseName(PropertyInfo prop) {
-            var name = prop.Name;
+            string name;
             switch (ECanDictionary) {
                 case CanDictionary.Underscore:
-                    name = name.ToUnderscore();
+                    name = prop.Name.ToUnderscore();
                     break;
                 case CanDictionary.UpperCamelCase:
-                    name = name.ToUpperCamelCase();
+                    name = prop.Name.ToUpperCamelCase();
                     break;
                 case CanDictionary.LowerCamelCase:
-                    name = name.ToLowerCamelCase();
+                    name = prop.Name.ToLowerCamelCase();
                     break;;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(CanDictionary) + ":" + ECanDictionary);

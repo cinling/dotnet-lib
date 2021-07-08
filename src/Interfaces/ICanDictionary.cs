@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using Cinling.Lib.Attributes;
+using Cinling.Lib.Extensions;
 
 namespace Cinling.Lib.Interfaces {
 
@@ -29,15 +32,19 @@ namespace Cinling.Lib.Interfaces {
         /// <summary>
         /// implement ToDictionary()
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="canDictionary"></param>
         /// <returns></returns>
-        public static IDictionary<string, object> __ToDictionary(this ICanDictionary obj) {
-            var type = obj.GetType();
+        public static IDictionary<string, object> __ToDictionary(this ICanDictionary canDictionary) {
+            var type = canDictionary.GetType();
             var dict = new Dictionary<string, object>();
-            foreach (var property in type.GetProperties()) {
-                var value = property.CanRead ? property.GetValue(obj, null) : null;
+            var convertDict = canDictionary.GetConvertDictionary();
+            foreach (var prop in type.GetProperties()) {
+                if (!convertDict.TryGetValue(prop.Name, out var key)) {
+                    key = prop.Name;
+                }
+                var value = prop.CanRead ? prop.GetValue(canDictionary, null) : null;
                 value = ParseValue(value);
-                dict.TryAdd(property.Name, value);
+                dict.TryAdd(key, value);
             }
             return dict;
         }
@@ -45,16 +52,44 @@ namespace Cinling.Lib.Interfaces {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ins"></param>
+        /// <param name="canDictionary"></param>
         /// <param name="dictionary"></param>
-        public static void __SetByDictionary(this ICanDictionary ins, IDictionary<string, object> dictionary) {
-            var type = ins.GetType();
-            foreach (var property in type.GetProperties()) {
-                if (dictionary.TryGetValue(property.Name, out var propValue)) {
-                    var value = ParseProp(property.PropertyType, propValue);
-                    property.SetValue(ins, value);
+        public static void __SetByDictionary(this ICanDictionary canDictionary, IDictionary<string, object> dictionary) {
+            var type = canDictionary.GetType();
+            var convertDict = canDictionary.GetConvertDictionary();
+            foreach (var prop in type.GetProperties()) {
+                if (!convertDict.TryGetValue(prop.Name, out var keyName)) {
+                    keyName = prop.Name;
+                }
+                if (dictionary.TryGetValue(keyName, out var propValue) || dictionary.TryGetValue(prop.Name, out propValue)) {
+                    var value = ParseProp(prop.PropertyType, propValue);
+                    prop.SetValue(canDictionary, value);
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取转换字段名字典。类属性 => 字典键名
+        /// </summary>
+        /// <param name="canDictionary"></param>
+        public static Dictionary<string, string> GetConvertDictionary(this ICanDictionary canDictionary) {
+            var type = canDictionary.GetType();
+            var classAttribute = type.GetCustomAttribute<CanDictionaryClassAttribute>();
+            var dict = new Dictionary<string, string>();
+
+            if (classAttribute != null) {
+                foreach (var prop in type.GetProperties()) {
+                    var propAttribute = prop.PropertyType.GetCustomAttribute<CanDictionaryPropertyAttribute>();
+                    dict[prop.Name] = propAttribute != null ? propAttribute.ParseName(prop) : classAttribute.ParseName(prop);
+                }
+            }
+            else {
+                foreach (var prop in type.GetProperties()) {
+                    var propAttribute = prop.PropertyType.GetCustomAttribute<CanDictionaryPropertyAttribute>();
+                    dict[prop.Name] = propAttribute != null ? propAttribute.ParseName(prop) : prop.Name;
+                }
+            }
+            return dict;
         }
         
         /// <summary>

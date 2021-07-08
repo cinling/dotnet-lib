@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using Cinling.Lib.Extensions;
 
 namespace Cinling.Lib.Interfaces {
     /// <summary>

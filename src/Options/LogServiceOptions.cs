@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Text;
+using Cinling.Lib.Extensions;
 using Cinling.Lib.FileLogger;
 using Cinling.Lib.Helpers;
 using Cinling.Lib.Interfaces;
