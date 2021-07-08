@@ -2,7 +2,7 @@
 namespace System {
 
 
-    public static class CinlingLibTypeExtensions {
+    public static class TypeExtensions {
         
         /// <summary>
         /// 判断
