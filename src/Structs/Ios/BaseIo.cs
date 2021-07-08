@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Cinling.Lib.Interfaces;
 using Cinling.Lib.Structs.Vos;
 
 namespace Cinling.Lib.Structs.Ios {
@@ -8,17 +7,21 @@ namespace Cinling.Lib.Structs.Ios {
     /// Basic input parameter object. Generally used for interface request and protocol data transmission
     /// 基础输入参数对象。一般用于接口请求、协议数据发送
     /// </summary>
-    public class BaseIos : BaseVo {
-        private readonly Dictionary<string, object> extParams = new ();
+    public class BaseIo : BaseVo {
+        /// <summary>
+        /// Extended data to be sent 
+        /// 需要发送的扩展数据
+        /// </summary>
+        private readonly Dictionary<string, object> __extParams = new ();
 
         /// <summary>
         /// 设置扩展参数
         /// </summary>
         /// <param name="params"></param>
-        public void SetExtParams(Dictionary<string, object> @params) {
-            extParams.Clear();
-            foreach (var param in @params) {
-                AddExtParams(param.Key, param.Value);
+        public void SetExtendParams(Dictionary<string, object> @params) {
+            __extParams.Clear();
+            foreach (var (key, value) in @params) {
+                SetExtendParam(key, value);
             }
         }
 
@@ -28,8 +31,8 @@ namespace Cinling.Lib.Structs.Ios {
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool AddExtParams(string key, object value) {
-            return extParams.TryAdd(key, value);
+        public void SetExtendParam(string key, object value) {
+            __extParams[key] = value;
         }
 
         /// <summary>
@@ -38,8 +41,8 @@ namespace Cinling.Lib.Structs.Ios {
         /// <returns></returns>
         public new IDictionary<string, object> ToDictionary() {
             var dict = base.ToDictionary();
-            foreach (var pair in extParams) {
-                dict.TryAdd(pair.Key, pair.Value);
+            foreach (var (key, value) in __extParams) {
+                dict.TryAdd(key, value);
             }
             return dict;
         }
