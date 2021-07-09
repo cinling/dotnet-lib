@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Cinling.Lib.Attributes;
+using Cinling.Lib.Enums;
 using Cinling.Lib.Extensions;
 
 namespace Cinling.Lib.Interfaces {
@@ -79,7 +80,7 @@ namespace Cinling.Lib.Interfaces {
 
             if (classAttribute != null) {
                 foreach (var prop in type.GetProperties()) {
-                    var propAttribute = prop.PropertyType.GetCustomAttribute<CanDictionaryPropertyAttribute>();
+                    var propAttribute = prop.GetCustomAttribute<CanDictionaryPropertyAttribute>();
                     dict[prop.Name] = propAttribute != null ? propAttribute.ParseName(prop) : classAttribute.ParseName(prop);
                 }
             }
@@ -180,6 +181,48 @@ namespace Cinling.Lib.Interfaces {
             }
 
             return value;
+        }
+    }
+
+    public interface ICanDictionaryAttribute {
+        CanDictionary ECanDictionary { get; }
+    }
+
+    public static class CanDictionaryAttributeExtensions {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <param name="prop"></param>
+        /// <returns></returns>
+        public static string ParseName(this ICanDictionaryAttribute attribute, PropertyInfo prop) => ParseName(attribute, prop, "");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <param name="prop"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static string ParseName(this ICanDictionaryAttribute attribute, PropertyInfo prop, string name) {
+            if (name != "") return name;
+            
+            switch (attribute.ECanDictionary) {
+                case CanDictionary.Underscore:
+                    name = prop.Name.ToUnderscore();
+                    break;
+                case CanDictionary.UpperCamelCase:
+                    name = prop.Name.ToUpperCamelCase();
+                    break;
+                case CanDictionary.LowerCamelCase:
+                    name = prop.Name.ToLowerCamelCase();
+                    break;;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(CanDictionary) + ":" + attribute.ECanDictionary);
+            }
+            return name;
         }
     }
 }

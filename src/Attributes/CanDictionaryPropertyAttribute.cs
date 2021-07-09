@@ -2,6 +2,7 @@
 using System.Reflection;
 using Cinling.Lib.Enums;
 using Cinling.Lib.Extensions;
+using Cinling.Lib.Interfaces;
 
 namespace Cinling.Lib.Attributes {
 
@@ -9,11 +10,11 @@ namespace Cinling.Lib.Attributes {
     /// 
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class CanDictionaryPropertyAttribute : Attribute {
+    public class CanDictionaryPropertyAttribute : Attribute, ICanDictionaryAttribute {
         /// <summary>
         /// 
         /// </summary>
-        public string Name { get; }
+        public string Name { get; } = "";
         
         /// <summary>
         /// 
@@ -36,29 +37,7 @@ namespace Cinling.Lib.Attributes {
         public CanDictionaryPropertyAttribute(CanDictionary eCanDictionary) {
             ECanDictionary = eCanDictionary;
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="prop"></param>
-        /// <returns></returns>
-        public string ParseName(PropertyInfo prop) {
-            string name;
-            switch (ECanDictionary) {
-                case CanDictionary.Underscore:
-                    name = prop.Name.ToUnderscore();
-                    break;
-                case CanDictionary.UpperCamelCase:
-                    name = prop.Name.ToUpperCamelCase();
-                    break;
-                case CanDictionary.LowerCamelCase:
-                    name = prop.Name.ToLowerCamelCase();
-                    break;;
-                default:
-                    name = Name;
-                    break;
-            }
-            return name;
-        }
+
+        public string ParseName(PropertyInfo prop) => this.ParseName(prop, Name);
     }
 }
