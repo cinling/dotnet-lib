@@ -50,5 +50,29 @@ namespace Cinling.Lib.Structs.Vos {
         public void SetByDictionary(IDictionary<string, object> dictionary) {
             this.__SetByDictionary(dictionary);
         }
+        
+        
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
+        [Obsolete]
+        public string ToHttpGetString() => ToHttpGetString("?");
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public string ToHttpGetString(string prefix) {
+            var str = "";
+            foreach (var (name, value) in ToDictionary()) {
+                
+                str += name + "=";
+            }
+            return prefix + str;
+        }
     }
 }
